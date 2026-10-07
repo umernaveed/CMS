@@ -1,0 +1,4 @@
+@include('courier.finance.print._head', ['title' => 'Payments'])
+<table><thead><tr><th>Payment</th><th>Invoice</th><th>Customer</th><th>Method</th><th>Status</th><th>Approved By</th><th>Points</th><th>Amount</th></tr></thead><tbody>
+@forelse($payments as $payment)<tr><td>{{ $payment->payment_number }}</td><td>{{ optional($payment->invoice)->invoice_number }}</td><td>{{ optional(optional($payment->customer)->user)->full_name }}</td><td>{{ optional($payment->method)->name }}</td><td>{{ ucfirst($payment->status) }}</td><td>{{ optional($payment->approver)->full_name ?: '-' }}</td><td>{{ ($payment->points_redeemed ?? 0) > 0 ? number_format($payment->points_redeemed, 2).' pts / JMD '.number_format($payment->points_value_jmd, 2) : '-' }}</td><td>JMD {{ number_format($payment->amount, 2) }}</td></tr>@empty<tr><td colspan="8">No payments found.</td></tr>@endforelse
+</tbody></table>@include('courier.finance.print._foot')

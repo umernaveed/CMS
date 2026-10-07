@@ -1,0 +1,5 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Courier Wallet</title><style>body{font-family:Arial;margin:28px;color:#111827}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #d1d5db;text-align:left}.right{text-align:right}</style></head><body onload="window.print()">
+<h1>Courier Wallet</h1><p>{{ $tenant->company_name }} | Balance: JMD {{ number_format((float) $tenant->credit_balance_jmd, 2) }}</p>
+<table><thead><tr><th>Date</th><th>Type</th><th>Reference</th><th>Notes</th><th>Amount</th><th>Balance</th></tr></thead><tbody>
+@forelse($transactions as $transaction)<tr><td>{{ optional($transaction->created_at)->format('M d, Y h:i A') }}</td><td>{{ ucfirst($transaction->type) }}</td><td>{{ $transaction->reference_number ?: '-' }}</td><td>{{ $transaction->notes ?: '-' }}</td><td class="right">JMD {{ number_format((float) $transaction->amount_jmd, 2) }}</td><td class="right">JMD {{ number_format((float) $transaction->balance_after_jmd, 2) }}</td></tr>@empty<tr><td colspan="6">No transactions.</td></tr>@endforelse
+</tbody></table></body></html>
