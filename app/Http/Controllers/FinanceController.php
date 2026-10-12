@@ -65,6 +65,7 @@ class FinanceController extends Controller
             $invoice->update(['payment_status' => $paid + 0.01 >= (float) $invoice->total_jmd ? 'paid' : 'partial', 'paid_at' => now(), 'paid_by' => auth()->id()]);
             if ($invoice->payment_status === 'paid') {
                 app(\App\Services\FinanceEntryService::class)->recordCustomerInvoiceIncome($invoice->fresh('customer.user'));
+                app(\App\Services\LoyaltyService::class)->awardInvoicePaid($invoice->fresh('customer'));
             }
         }
         ActivityLog::record('approved', 'payments', 'Approved payment '.$payment->payment_number, ['payment_id' => $payment->id]);
